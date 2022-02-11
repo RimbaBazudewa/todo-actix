@@ -11,11 +11,28 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    services:
+      image: postgres
+      env:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+      port:
+      - 5432:5432
+      option: --health-cmd pg_isready --health-interval 10s  --health-timeout 5s --health-retries 5
+
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install diesel_cli
+      run: cargo install diesel_cli --no-default-features --features postgres
+    - name: Run migration
+      run: diesel migration run
+      env:
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+    - name: Copy .env file
+      run: cp .env.github .env
     - name: Build
       run: cargo build --verbose
     - name: Run tests
