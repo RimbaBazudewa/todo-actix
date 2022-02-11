@@ -12,6 +12,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    contianer:
+      image: rimbabazudewa/todo-actic-cahce
     services:
       postgres:
         image: postgres
@@ -22,16 +24,16 @@ jobs:
         ports:
         - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s  --health-timeout 5s --health-retries 5
-  
+
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install diesel_cli
-      run: cargo install diesel_cli --no-default-features --features postgres
+    - name : Move cache
+      run: mv /cache/target .
     - name: Run migration
       run: diesel migration run
       env:
-        DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+        DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
     - name: Copy .env file
       run: cp .env.github .env
     - name: Build
