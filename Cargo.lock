@@ -86,6 +86,7 @@ version = "2.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cdf3f2183be1241ed4dd22611850b85d38de0b08a09f1f7bcccbd0809084b359"
 dependencies = [
+ "actix-macros",
  "futures-core",
  "tokio",
 ]
@@ -1482,11 +1483,14 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 name = "todo-actix"
 version = "0.1.0"
 dependencies = [
+ "actix-rt",
  "actix-web",
  "config",
  "deadpool-postgres",
  "dotenv",
+ "lazy_static",
  "serde 1.0.136",
+ "serde_json",
  "slog",
  "slog-async",
  "slog-term",
